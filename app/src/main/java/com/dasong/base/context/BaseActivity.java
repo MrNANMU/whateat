@@ -9,12 +9,16 @@ import android.view.View;
 
 import com.dasong.utils.DialogManager;
 
+import butterknife.ButterKnife;
+
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarStyle();
         setContentView(getContentViewId());
+        ButterKnife.bind(this);
         initView(savedInstanceState);
         initData(savedInstanceState);
     }
@@ -24,6 +28,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         DialogManager.free(this);
     }
+
+    abstract protected void setStatusBarStyle();
 
     abstract protected int getContentViewId();
 

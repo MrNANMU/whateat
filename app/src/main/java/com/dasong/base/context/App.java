@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.dasong.utils.LogUtils;
 
+import butterknife.ButterKnife;
+
 public class App extends Application{
 
     private static App INSTANCE;
