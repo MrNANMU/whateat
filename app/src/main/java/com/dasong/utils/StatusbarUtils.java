@@ -15,17 +15,14 @@ public class StatusbarUtils {
 
 
     public static void fullScreen(Activity activity){
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public static void translucent(Activity activity){
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     public static void asColor(Activity activity,int color){
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = activity.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(color);

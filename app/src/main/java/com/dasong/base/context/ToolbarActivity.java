@@ -14,7 +14,7 @@ import com.dasong.R;
 
 import butterknife.BindView;
 
-abstract public class ToolbarActivity extends BaseActivity implements View.OnClickListener{
+abstract public class ToolbarActivity extends BaseActivity{
 
     @BindView(R.id.toolbar)
     LinearLayout toolbar;
@@ -40,8 +40,6 @@ abstract public class ToolbarActivity extends BaseActivity implements View.OnCli
         iv_left_button.setImageResource(getLeftButtonIcon());
         tv_title.setText(getToolbarTitle());
         iv_right_button.setImageResource(getRightButtonIcon());
-        left_button.setOnClickListener(this);
-        right_button.setOnClickListener(this);
     }
 
     abstract protected int getToolbarColor();

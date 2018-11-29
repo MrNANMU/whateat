@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class SharePreUtils {
 
-    private static final SharedPreferences DEFAULT_SP = App.getApplication().getSharedPreferences("wcshxx_base", Context.MODE_PRIVATE);
+    private static final SharedPreferences DEFAULT_SP = App.getApplication().getSharedPreferences("whateat_default", Context.MODE_PRIVATE);
     private static final SharedPreferences.Editor DEFAULT_EDITOR = DEFAULT_SP.edit();
 
     public static final int DEFAULT_INT = -1;
