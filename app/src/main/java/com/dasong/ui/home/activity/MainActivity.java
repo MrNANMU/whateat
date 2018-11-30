@@ -1,30 +1,29 @@
 package com.dasong.ui.home.activity;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dasong.R;
-import com.dasong.base.callback.OnSlowlyClickListener;
-import com.dasong.base.context.BaseActivity;
 import com.dasong.base.context.ToolbarActivity;
 import com.dasong.ui.home.adapter.FoodGridAdapter;
+import com.dasong.utils.AnimUtils;
 import com.dasong.utils.BitmapUtils;
-import com.dasong.utils.LogUtils;
 import com.dasong.utils.PixUtils;
 import com.dasong.utils.StatusbarUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends ToolbarActivity implements DrawerLayout.DrawerListener{
 
@@ -32,6 +31,8 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
     DrawerLayout dl_drawer;
     @BindView(R.id.rv_img_backround)
     RecyclerView rv_img_backround;
+    @BindView(R.id.fl_cover_wrap)
+    FrameLayout fl_cover_wrap;
     @BindView(R.id.iv_cover)
     ImageView iv_cover;
     @BindView(R.id.tv_get_food)
@@ -41,6 +42,7 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
     private GridLayoutManager manager;
 
     private String currentStatusColor;
+    private boolean scollable = false;
 
     @Override
     protected int getToolbarColor() {
@@ -61,22 +63,30 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
     @Override
     protected void initView(Bundle savedInstanceState) {
         initDrawer();
+        initListBackground();
+        initMainUi();
+    }
+
+    private void initDrawer(){
+        dl_drawer.addDrawerListener(this);
+    }
+
+    private void initListBackground(){
         rv_img_backround.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return true;
+                return !scollable;
             }
         });
         adapter = new FoodGridAdapter(this);
         manager = new GridLayoutManager(this,3);
         rv_img_backround.setAdapter(adapter);
         rv_img_backround.setLayoutManager(manager);
-        Bitmap bitmap = BitmapUtils.fit(R.mipmap.test, PixUtils.dp2px(120),PixUtils.dp2px(120));
-        iv_cover.setImageBitmap(BitmapUtils.toCircle(BitmapUtils.rsBlur(bitmap,25)));
     }
 
-    private void initDrawer(){
-        dl_drawer.addDrawerListener(this);
+    private void initMainUi(){
+        Bitmap bitmap = BitmapUtils.fit(R.mipmap.test, PixUtils.dp2px(120),PixUtils.dp2px(120));
+        iv_cover.setImageBitmap(BitmapUtils.toCircle(BitmapUtils.rsBlur(bitmap,25)));
     }
 
     @Override
@@ -99,6 +109,34 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
         return "今天吃什么";
     }
 
+    @OnClick(R.id.tv_get_food)
+    public void getRandomFood(){
+        scollable = !scollable;
+        anim();
+        
+    }
+
+    private void anim(){
+
+        AnimUtils.toss(fl_cover_wrap, rv_img_backround, new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                tv_get_food.setEnabled(false);
+                fl_cover_wrap.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                tv_get_food.setEnabled(true);
+                fl_cover_wrap.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
 
     @Override
     public void onDrawerSlide(@NonNull View view, float v) {
