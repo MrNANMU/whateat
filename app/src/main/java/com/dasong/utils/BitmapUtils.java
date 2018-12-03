@@ -22,7 +22,7 @@ public class BitmapUtils {
     /**
      * 高斯模糊，Android 4.2+有效
      * @param source
-     * @param radius 0-25
+     * @param radius 0-25,0不模糊，25最模糊
      * @return
      */
     public static Bitmap rsBlur(Bitmap source,int radius){
@@ -30,7 +30,7 @@ public class BitmapUtils {
             throw new RuntimeException("此方法只能在Android4.2+使用");
         }
         if(radius <= 0 || radius > 25){
-            throw new RuntimeException("radius必须在0-25之间");
+            throw new RuntimeException("radius必须在[0-25)之间");
         }
 
         Bitmap inputBmp = source;

@@ -35,10 +35,10 @@ abstract public class ToolbarActivity extends BaseActivity{
         initToolbar();
     }
 
-    private void initToolbar(){
+    protected void initToolbar(){
         toolbar.setBackgroundColor(getToolbarColor());
         iv_left_button.setImageResource(getLeftButtonIcon());
-        tv_title.setText(getToolbarTitle());
+        tv_title.setText(getToolbarTitle()==null?"":getToolbarTitle());
         iv_right_button.setImageResource(getRightButtonIcon());
     }
 
@@ -46,4 +46,13 @@ abstract public class ToolbarActivity extends BaseActivity{
     abstract protected @DrawableRes int getLeftButtonIcon();
     abstract protected @DrawableRes int getRightButtonIcon();
     abstract protected String getToolbarTitle();
+
+    protected void back(){
+        left_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }

@@ -1,4 +1,4 @@
-package com.dasong.base.callback;
+package com.dasong.base.callback.recyclerview;
 
 import android.view.View;
 

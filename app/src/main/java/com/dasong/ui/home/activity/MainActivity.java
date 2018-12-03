@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +19,26 @@ import android.widget.TextView;
 import com.dasong.R;
 import com.dasong.base.context.ToolbarActivity;
 import com.dasong.ui.home.adapter.FoodGridAdapter;
+import com.dasong.ui.home.view.DrawerHelper;
 import com.dasong.utils.AnimUtils;
 import com.dasong.utils.BitmapUtils;
 import com.dasong.utils.PixUtils;
 import com.dasong.utils.StatusbarUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends ToolbarActivity implements DrawerLayout.DrawerListener{
+public class MainActivity extends ToolbarActivity implements DrawerLayout.DrawerListener,DrawerHelper.OnItemChangeListener {
 
     @BindView(R.id.dl_drawer)
     DrawerLayout dl_drawer;
+    /*@BindView(R.id.nv_drawer)
+    NavigationView nv_drawer;*/
+    @BindView(R.id.v_drawer)
+    View v_drawer;
+    DrawerHelper helper;
     @BindView(R.id.rv_img_backround)
     RecyclerView rv_img_backround;
     @BindView(R.id.fl_cover_wrap)
@@ -69,6 +79,14 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
 
     private void initDrawer(){
         dl_drawer.addDrawerListener(this);
+        helper = DrawerHelper.bind(this,v_drawer);
+        helper.setOnItemChangeListener(this);
+        left_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dl_drawer.openDrawer(GravityCompat.START);
+            }
+        });
     }
 
     private void initListBackground(){
@@ -113,7 +131,7 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
     public void getRandomFood(){
         scollable = !scollable;
         anim();
-        
+
     }
 
     private void anim(){
@@ -164,5 +182,19 @@ public class MainActivity extends ToolbarActivity implements DrawerLayout.Drawer
     @Override
     public void onDrawerStateChanged(int i) {
 
+    }
+
+    @Override
+    public void onItemChanged(List<String> newGrid) {
+        //更新数据源
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(dl_drawer.isDrawerOpen(GravityCompat.START)){
+            dl_drawer.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
     }
 }
